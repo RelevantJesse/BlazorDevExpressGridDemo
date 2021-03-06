@@ -30,7 +30,7 @@ namespace BlazorDevExpressGridDemo
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddDbContextFactory<MyDbContext>(opt => opt.UseSqlite("Filename=./demo.db"));
+            services.AddDbContextFactory<MyDbContext>(opt => opt.UseSqlServer("Server=localhost;Database=Demo;Trusted_Connection=True;"));
             services.AddScoped(p => p.GetRequiredService<IDbContextFactory<MyDbContext>>().CreateDbContext());
             services.AddScoped<DemoService>();
         }

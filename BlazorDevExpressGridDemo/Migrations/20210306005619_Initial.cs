@@ -10,9 +10,9 @@ namespace BlazorDevExpressGridDemo.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -23,9 +23,9 @@ namespace BlazorDevExpressGridDemo.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,22 +35,20 @@ namespace BlazorDevExpressGridDemo.Migrations
             migrationBuilder.InsertData(
                 table: "Departments",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Dep1" });
-
-            migrationBuilder.InsertData(
-                table: "Departments",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Dep2" });
-
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Role1" });
+                values: new object[,]
+                {
+                    { 1, "Dep1" },
+                    { 2, "Dep2" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Role2" });
+                values: new object[,]
+                {
+                    { 1, "Role1" },
+                    { 2, "Role2" }
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
