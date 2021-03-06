@@ -1,0 +1,25 @@
+﻿@page "/"
+@using BlazorDevExpressGridDemo.Models
+@using BlazorDevExpressGridDemo.Services
+
+@inject DemoService DemoService
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+
+<DxDataGrid DataAsync="@DemoService.GetRolesAsync">
+    <DxDataGridColumn Field="@nameof(Role.Id)" />
+    <DxDataGridColumn Field="@nameof(Role.Name)" />
+</DxDataGrid>
+
+<DxDataGrid DataAsync="@DemoService.GetDepartmentsAsync">
+    <DxDataGridColumn Field="@nameof(Department.Id)" />
+    <DxDataGridColumn Field="@nameof(Department.Name)" />
+</DxDataGrid>
+
+@code
+{
+
+}
