@@ -9,21 +9,14 @@ namespace BlazorDevExpressGridDemo
 {
     public class MyDbContext : DbContext
     {
-        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!Departments.Any())
-            {
-                Departments.AddRange(new Department { Id = 1, Name = "Department1" }, new Department { Id = 2, Name = "Department2" });
-            }
-
-            if (!Roles.Any())
-            {
-                Roles.AddRange(new Role { Id = 1, Name = "Role1" }, new Role { Id = 2, Name = "Role2" });
-            }
-
-            SaveChanges();
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Seed();
         }
-        
+
         public DbSet<Department> Departments { get; set; }
         public DbSet<Role> Roles { get; set; }
         
