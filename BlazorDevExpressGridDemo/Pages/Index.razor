@@ -3,32 +3,52 @@
 @using Microsoft.EntityFrameworkCore
 @using System.Threading
 
+@using BlazorDevExpressGridDemo.EditFormTemplates
+
 @inject MyDbContext Context
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-
-<DxDataGrid DataAsync="@GetRolesAsync">
-    <DxDataGridColumn Field="@nameof(Role.Id)" />
-    <DxDataGridColumn Field="@nameof(Role.Name)" />
-</DxDataGrid>
-
-<DxDataGrid DataAsync="@GetDepartmentsAsync">
-    <DxDataGridColumn Field="@nameof(Department.Id)" />
-    <DxDataGridColumn Field="@nameof(Department.Name)" />
+<DxDataGrid DataAsync="@GetEmployeesAsync">
+    <Columns>
+        <DxDataGridColumn Field="@nameof(Employee.Name)" />
+    </Columns>
+    <DetailRowTemplate>
+        <DxDataGrid Data="@((context as Employee).Role)"
+                    RowEditStart="@(dataItem => OnRowEditStarting(dataItem))"
+                    @ref="@employeeGrid">
+            <Columns>
+            </Columns>
+            <EditFormTemplate Context="editFormTemplateContext">
+                <EditForm Model="@EditContext" Context="EditFormContext" OnValidSubmit="@HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <DxFormLayout>
+                        <DxFormLayoutItem Caption="Role name:" ColSpanMd="12" Context="FormLayoutContext">
+                            <Template>
+                                <DxTextBox @bind-Text="@EditContext.Name" />
+                            </Template>
+                        </DxFormLayoutItem>
+                    </DxFormLayout>
+                </EditForm>
+            </EditFormTemplate>
+        </DxDataGrid>
+    </DetailRowTemplate>
 </DxDataGrid>
 
 @code
 {
-    async Task<IEnumerable<Role>> GetRolesAsync(CancellationToken token)
+    FormEditContext EditContext;
+
+    async Task<IEnumerable<Employee>> GetEmployeesAsync(CancellationToken token)
     {
-        return await Context.Roles.ToListAsync(token);
+        return await Context.Employees.ToListAsync(token);
     }
 
-    async Task<IEnumerable<Department>> GetDepartmentsAsync(CancellationToken token)
+    void OnRowEditStarting(Role role)
     {
-        return await Context.Departments.ToListAsync(token);
+        EditContext = new FormEditContext(role);
+        EditContext.StateHasChanged += () => { InvokeAsync(StateHasChanged); };
     }
 }

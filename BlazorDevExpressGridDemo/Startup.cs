@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BlazorDevExpressGridDemo.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlazorDevExpressGridDemo
@@ -32,7 +31,6 @@ namespace BlazorDevExpressGridDemo
 
             services.AddDbContextFactory<MyDbContext>(opt => opt.UseSqlServer("Server=localhost;Database=Demo;Trusted_Connection=True;"));
             services.AddScoped(p => p.GetRequiredService<IDbContextFactory<MyDbContext>>().CreateDbContext());
-            services.AddScoped<DemoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

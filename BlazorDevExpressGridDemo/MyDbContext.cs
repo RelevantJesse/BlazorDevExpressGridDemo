@@ -17,7 +17,7 @@ namespace BlazorDevExpressGridDemo
             modelBuilder.Seed();
         }
 
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Role> Roles { get; set; }
         
     }
@@ -26,14 +26,14 @@ namespace BlazorDevExpressGridDemo
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Department>().HasData(
-                new Department { Id = 1, Name = "Dep1" },
-                new Department { Id = 2, Name = "Dep2" }
-            );
-
             modelBuilder.Entity<Role>().HasData(
                 new Role { Id = 1, Name = "Role1" },
                 new Role { Id = 2, Name = "Role2" }
+            );
+
+            modelBuilder.Entity<Employee>().HasData(
+                new { Id = 1, Name = "Employee1", RoleId = 1 },
+                new { Id = 2, Name = "Employee2", RoleId = 1 }
             );
         }
     }
